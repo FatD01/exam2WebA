@@ -9,13 +9,16 @@ app.set('view engine', 'ejs'); // Usaremos EJS para las vistas
 app.use(express.urlencoded({ extended: false })); // Para entender los datos de los formularios
 app.use(express.static(path.join(__dirname, 'public'))); // Carpeta pública para estilos y fotos
 
-// --- CONFIGURACIÓN DE LA BASE DE DATOS (XAMPP) ---
-// Asegúrate de que XAMPP esté encendido (Apache y MySQL)
+// --- CONFIGURACIÓN DE LA BASE DE DATOS (TiDB Cloud / Nube) ---
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', // Usuario por defecto en XAMPP
-    password: '', // Contraseña por defecto vacía en XAMPP
-    database: 'sistema_ventas' // El nombre de nuestra BD
+    host: process.env.DB_HOST || 'gateway01.us-east-1.prod.aws.tidbcloud.com',
+    user: process.env.DB_USER || '2RMXZeriWc8NC2X.root',
+    password: process.env.DB_PASSWORD || '1xwFjRrANpB1P7l4',
+    database: process.env.DB_NAME || 'sys',
+    port: process.env.DB_PORT || 4000,
+    ssl: {
+        rejectUnauthorized: false // Requisito obligatorio para TiDB Cloud
+    }
 });
 
 db.connect((err) => {
