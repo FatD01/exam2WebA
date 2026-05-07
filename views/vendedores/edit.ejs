@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-warning text-dark py-3">
+                <h4 class="card-title mb-0"><i class="bi bi-pencil-square"></i> Editar Vendedor</h4>
+            </div>
+            <div class="card-body p-4">
+                <form action="/vendedores/editar/<%= vendedor.id_vendedor %>" method="POST" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="nombre" class="form-label fw-bold">Nombre del Vendedor</label>
+                        <input type="text" class="form-control form-control-lg" id="nombre" name="nombre" value="<%= vendedor.nombre %>" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold d-block">Foto Actual</label>
+                        <img src="/uploads/<%= vendedor.foto_vendedor %>" alt="Foto actual" class="img-thumbnail mb-3 shadow-sm rounded-circle object-fit-cover" width="100" height="100">
+                        
+                        <label for="foto_vendedor" class="form-label fw-bold mt-2">Subir nueva foto (opcional)</label>
+                        <input class="form-control" type="file" id="foto_vendedor" name="foto_vendedor" accept="image/*">
+                        <div class="form-text">Si no seleccionas un archivo, se mantendrá la foto actual.</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/vendedores" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Cancelar</a>
+                        <button type="submit" class="btn btn-warning px-4 text-dark fw-bold"><i class="bi bi-save"></i> Actualizar Vendedor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

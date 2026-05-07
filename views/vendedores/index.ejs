@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+<div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+    <h2 class="fw-bold text-primary"><i class="bi bi-people-fill"></i> Lista de Vendedores</h2>
+    <a href="/vendedores/crear" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Nuevo Vendedor</a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Foto</th>
+                        <th>Nombre</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(vendedores.length > 0) { %>
+                        <% vendedores.forEach(function(vendedor) { %>
+                            <tr>
+                                <td><%= vendedor.id_vendedor %></td>
+                                <td>
+                                    <!-- Mostramos la foto del vendedor -->
+                                    <img src="/uploads/<%= vendedor.foto_vendedor %>" alt="Foto de <%= vendedor.nombre %>" 
+                                         class="rounded-circle object-fit-cover shadow-sm" width="50" height="50">
+                                </td>
+                                <td class="fw-medium"><%= vendedor.nombre %></td>
+                                <td class="text-end">
+                                    <a href="/vendedores/editar/<%= vendedor.id_vendedor %>" class="btn btn-sm btn-outline-warning me-1">
+                                        <i class="bi bi-pencil-square"></i> Editar
+                                    </a>
+                                    <!-- Botón para eliminar. Usamos onclik para pedir confirmación -->
+                                    <a href="/vendedores/eliminar/<%= vendedor.id_vendedor %>" class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('¿Estás seguro de eliminar a este vendedor?');">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">No hay vendedores registrados todavía.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

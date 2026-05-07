@@ -1,0 +1,33 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white py-3">
+                <h4 class="card-title mb-0"><i class="bi bi-person-plus"></i> Agregar Nuevo Vendedor</h4>
+            </div>
+            <div class="card-body p-4">
+                <!-- IMPORTANTE: enctype="multipart/form-data" es necesario para subir archivos -->
+                <form action="/vendedores/crear" method="POST" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="nombre" class="form-label fw-bold">Nombre del Vendedor</label>
+                        <input type="text" class="form-control form-control-lg" id="nombre" name="nombre" required placeholder="Ej. Juan Pérez">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="foto_vendedor" class="form-label fw-bold">Foto de Perfil</label>
+                        <input class="form-control" type="file" id="foto_vendedor" name="foto_vendedor" accept="image/*">
+                        <div class="form-text">Sube una imagen para el perfil. (Opcional)</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/vendedores" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4"><i class="bi bi-save"></i> Guardar Vendedor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

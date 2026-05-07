@@ -1,0 +1,49 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success text-white py-3">
+                <h4 class="card-title mb-0"><i class="bi bi-cart-plus"></i> Registrar Nueva Venta</h4>
+            </div>
+            <div class="card-body p-4">
+                <form action="/ventas/crear" method="POST">
+                    <div class="mb-4">
+                        <label for="fecha" class="form-label fw-bold">Fecha de la Venta</label>
+                        <!-- Usamos type="date" para mostrar un calendario -->
+                        <input type="date" class="form-control form-control-lg" id="fecha" name="fecha" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="total" class="form-label fw-bold">Total ($)</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text">$</span>
+                            <input type="number" step="0.01" class="form-control" id="total" name="total" required placeholder="Ej. 150.50">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="id_vendedor" class="form-label fw-bold">Asignar a Vendedor</label>
+                        <select class="form-select form-select-lg" id="id_vendedor" name="id_vendedor" required>
+                            <option value="" disabled selected>-- Selecciona un vendedor --</option>
+                            <!-- Llenamos el select con los vendedores de la BD -->
+                            <% vendedores.forEach(function(v) { %>
+                                <option value="<%= v.id_vendedor %>"><%= v.nombre %></option>
+                            <% }); %>
+                        </select>
+                        <% if(vendedores.length === 0) { %>
+                            <div class="text-danger mt-2 small"><i class="bi bi-exclamation-triangle"></i> ¡Aviso! Debes crear al menos un vendedor primero.</div>
+                        <% } %>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/ventas" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Cancelar</a>
+                        <button type="submit" class="btn btn-success px-4" <%= vendedores.length === 0 ? 'disabled' : '' %>><i class="bi bi-save"></i> Guardar Venta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
