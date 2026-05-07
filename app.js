@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs'); // Añadido para manejo de carpetas
 const app = express();
 
 // --- CONFIGURACIONES BÁSICAS ---
@@ -30,10 +31,16 @@ db.connect((err) => {
 });
 
 // --- CONFIGURACIÓN DE MULTER PARA SUBIR FOTOS ---
+// Nos aseguramos de que la carpeta exista (esto previene el error en Render)
+const uploadDir = path.join(__dirname, 'public/uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         // Las fotos se guardarán en esta carpeta
-        cb(null, path.join(__dirname, 'public/uploads'));
+        cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
         // Le damos un nombre único a la foto para que no se sobreescriba
