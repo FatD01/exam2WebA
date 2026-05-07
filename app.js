@@ -14,7 +14,7 @@ const db = mysql.createConnection({
     host: process.env.DB_HOST || 'gateway01.us-east-1.prod.aws.tidbcloud.com',
     user: process.env.DB_USER || '2RMXZeriWc8NC2X.root',
     password: process.env.DB_PASSWORD || '1xwFjRrANpB1P7l4',
-    database: process.env.DB_NAME || 'sys',
+    database: process.env.DB_NAME || 'test',
     port: process.env.DB_PORT || 4000,
     ssl: {
         rejectUnauthorized: false // Requisito obligatorio para TiDB Cloud
