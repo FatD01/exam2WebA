@@ -30,7 +30,7 @@ db.connect((err) => {
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         // Las fotos se guardarán en esta carpeta
-        cb(null, path.join(__dirname, 'public/uploads')); 
+        cb(null, path.join(__dirname, 'public/uploads'));
     },
     filename: (req, file, cb) => {
         // Le damos un nombre único a la foto para que no se sobreescriba
@@ -68,7 +68,7 @@ app.get('/vendedores/crear', (req, res) => {
 app.post('/vendedores/crear', upload.single('foto_vendedor'), (req, res) => {
     const { nombre } = req.body;
     // Si el usuario subió una foto, guardamos el nombre del archivo, sino 'default.jpg'
-    const foto = req.file ? req.file.filename : 'default.jpg'; 
+    const foto = req.file ? req.file.filename : 'default.jpg';
 
     const query = 'INSERT INTO vendedores (nombre, foto_vendedor) VALUES (?, ?)';
     db.query(query, [nombre, foto], (err, results) => {
@@ -84,7 +84,7 @@ app.get('/vendedores/editar/:id', (req, res) => {
     db.query(query, [id], (err, results) => {
         if (err) throw err;
         // Pasamos los datos del vendedor a la vista
-        res.render('vendedores/edit', { vendedor: results[0] }); 
+        res.render('vendedores/edit', { vendedor: results[0] });
     });
 });
 
@@ -170,9 +170,9 @@ app.get('/ventas/editar/:id', (req, res) => {
         if (err) throw err;
         db.query(queryVendedores, (err, resultVendedores) => {
             if (err) throw err;
-            res.render('ventas/edit', { 
-                venta: resultVenta[0], 
-                vendedores: resultVendedores 
+            res.render('ventas/edit', {
+                venta: resultVenta[0],
+                vendedores: resultVendedores
             });
         });
     });
@@ -182,7 +182,7 @@ app.get('/ventas/editar/:id', (req, res) => {
 app.post('/ventas/editar/:id', (req, res) => {
     const id = req.params.id;
     const { fecha, total, id_vendedor } = req.body;
-    
+
     const query = 'UPDATE fotoVentas SET fecha = ?, total = ?, id_vendedor = ? WHERE id_venta = ?';
     db.query(query, [fecha, total, id_vendedor, id], (err, results) => {
         if (err) throw err;
@@ -203,5 +203,5 @@ app.get('/ventas/eliminar/:id', (req, res) => {
 // --- INICIAR EL SERVIDOR ---
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor en puerto${PORT}`);
 });
