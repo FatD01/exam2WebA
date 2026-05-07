@@ -11,7 +11,8 @@ app.use(express.urlencoded({ extended: false })); // Para entender los datos de 
 app.use(express.static(path.join(__dirname, 'public'))); // Carpeta pública para estilos y fotos
 
 // --- CONFIGURACIÓN DE LA BASE DE DATOS (TiDB Cloud / Nube) ---
-const db = mysql.createConnection({
+// Cambiamos Connection por Pool para evitar el error PROTOCOL_CONNECTION_LOST
+const db = mysql.createPool({
     host: process.env.DB_HOST || 'gateway01.us-east-1.prod.aws.tidbcloud.com',
     user: process.env.DB_USER || '2RMXZeriWc8NC2X.root',
     password: process.env.DB_PASSWORD || '1xwFjRrANpB1P7l4',
@@ -19,15 +20,20 @@ const db = mysql.createConnection({
     port: process.env.DB_PORT || 4000,
     ssl: {
         rejectUnauthorized: false // Requisito obligatorio para TiDB Cloud
-    }
+    },
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-db.connect((err) => {
+// Verificamos la conexión con el Pool
+db.getConnection((err, connection) => {
     if (err) {
-        console.error('Error conectando a la base de datos:', err);
+        console.error('Error conectando a la BD:', err);
         return;
     }
-    console.log('¡Conectado a la base de datos MySQL exitosamente!');
+    console.log('¡Conectado a TiDB Cloud mediante Pool exitosamente!');
+    connection.release(); // Soltamos la conexión para que esté disponible en el pool
 });
 
 // --- CONFIGURACIÓN DE MULTER PARA SUBIR FOTOS ---
